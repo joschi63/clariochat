@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel, create_engine, Session, Field
-from .models import User
+from . import models
 
 postgres_url = f"postgresql+psycopg://postgres:13579@localhost:5432/clariochat"
 
