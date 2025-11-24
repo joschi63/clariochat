@@ -33,6 +33,8 @@ class Message(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     content: str
     changed: bool = Field(default=False)
+    read: bool = Field(default=False)
+    deleted: bool = Field(default=False)
 
     sender_id: int = Field(foreign_key="users.id", nullable=False)
     chat_id: int = Field(foreign_key="chats.id", nullable=False) #in dms its the receiver
