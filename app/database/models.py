@@ -14,15 +14,17 @@ class ChatUser(SQLModel, table=True):
 class User(SQLModel, table=True):
     __tablename__ = "users" #type: ignore
     id: int | None = Field(default=None, primary_key=True)
-    name: str
-    email: str
-    phone_number: str
+    name: str = Field(nullable=False)
+   # email: str = Field(index=True, nullable=False, unique=True)
+    phone_number: str = Field(index=True, nullable=False, unique=True)
+    password_hash: str = Field(nullable=False)
+    created_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")))
     chats: list["Chat"] = Relationship(back_populates="users", link_model=ChatUser)
     
 class Chat(SQLModel, table=True):
     __tablename__ = "chats" #type: ignore
     id: int | None = Field(default=None, primary_key=True)
-    title: str
+    title: str = Field(nullable=True)
     type: str = Field(default="dm") # "dm" or "group"
     created_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")))
     messages: list["Message"] = Relationship(back_populates="chat")
@@ -31,7 +33,7 @@ class Chat(SQLModel, table=True):
 class Message(SQLModel, table=True):
     __tablename__ = "messages" #type: ignore
     id: int | None = Field(default=None, primary_key=True)
-    content: str
+    content: str = Field(nullable=False)
     changed: bool = Field(default=False)
     read: bool = Field(default=False)
     deleted: bool = Field(default=False)
@@ -42,5 +44,4 @@ class Message(SQLModel, table=True):
     sended_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")))
     updated_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"), onupdate=text("now()")))
 
-    sender: "User" = Relationship(back_populates="messages", sa_relationship_kwargs={"foreign_keys": "[Message.sender_id]"})
     chat: "Chat" = Relationship(back_populates="messages")
