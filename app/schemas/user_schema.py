@@ -2,8 +2,8 @@ from sqlmodel import SQLModel
 
 class UserSchema(SQLModel):
     name: str
-    email: str
     phone_number: str
+    password: str
 
 class UserCreate(UserSchema):
     pass   
