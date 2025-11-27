@@ -24,8 +24,9 @@ def upgrade() -> None:
         "users",
         sa.Column("id", sa.Integer, primary_key=True, nullable=False),
         sa.Column("name", sa.String, nullable=False),
-        sa.Column("email", sa.String, nullable=False),
-        sa.Column("phone_number", sa.String, nullable=False),
+        sa.Column("password", sa.String, nullable=False),
+        sa.Column("phone_number", sa.String, nullable=False, index=True, unique=True),
+        sa.Column("created_at", sa.TIMESTAMP(timezone=True), nullable=False, server_default=sa.text("now()")),
     )
 
 

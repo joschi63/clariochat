@@ -17,8 +17,8 @@ class User(SQLModel, table=True):
     name: str = Field(nullable=False)
    # email: str = Field(index=True, nullable=False, unique=True)
     phone_number: str = Field(index=True, nullable=False, unique=True)
-    password_hash: str = Field(nullable=False)
-    created_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")))
+    password: str = Field(nullable=False)
+    created_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")), default="now()")
     chats: list["Chat"] = Relationship(back_populates="users", link_model=ChatUser)
     
 class Chat(SQLModel, table=True):

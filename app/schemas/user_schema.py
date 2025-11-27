@@ -1,6 +1,7 @@
 from sqlmodel import SQLModel
+from pydantic import BaseModel
 
-class UserSchema(SQLModel):
+class UserSchema(BaseModel):
     name: str
     phone_number: str
     password: str
