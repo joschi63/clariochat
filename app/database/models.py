@@ -26,7 +26,7 @@ class Chat(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     title: str = Field(nullable=True)
     type: str = Field(default="dm") # "dm" or "group"
-    created_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")))
+    created_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")), default="now()")
     messages: list["Message"] = Relationship(back_populates="chat")
     users: list["User"] = Relationship(back_populates="chats", link_model=ChatUser)
 
@@ -41,7 +41,7 @@ class Message(SQLModel, table=True):
     sender_id: int = Field(foreign_key="users.id", nullable=False)
     chat_id: int = Field(foreign_key="chats.id", nullable=False) #in dms its the receiver
     
-    sended_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")))
-    updated_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"), onupdate=text("now()")))
+    sended_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")), default="now()")
+    updated_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"), onupdate=text("now()")), default="now()")
 
     chat: "Chat" = Relationship(back_populates="messages")
