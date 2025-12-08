@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from ..database.models import Chat, User, Message
 from ..database.database import SessionDep
 from ..security.token_managing import get_current_user
-from ..schemas.message_schema import MessageCreate
+from ..schemas.message_schema import MessageCreate, MessageResponse
 
 router = APIRouter(prefix="/messages", tags=["messages"])
 
-@router.post("/create")
+@router.post("/create", response_model=MessageResponse)
 def create_message(message: MessageCreate, session: SessionDep, current_user: User = Depends(get_current_user)):
     if not current_user:
         raise HTTPException(status_code=401, detail="Unauthorized")

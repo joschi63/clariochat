@@ -45,3 +45,4 @@ class Message(SQLModel, table=True):
     updated_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"), onupdate=text("now()")), default="now()")
 
     chat: "Chat" = Relationship(back_populates="messages")
+    
