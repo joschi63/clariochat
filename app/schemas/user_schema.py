@@ -1,5 +1,6 @@
 from sqlmodel import SQLModel
 from pydantic import BaseModel
+from .chat_schema import ChatResponse
 
 class UserSchema(BaseModel):
     name: str
@@ -12,4 +13,5 @@ class UserCreate(UserSchema):
 class UserRead(UserSchema):
     id: int
     name: str
+    chats: list["ChatResponse"] 
     

@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from ..database.models import User
+from ..database.models import User, ChatUser
 from ..database.database import SessionDep
 from ..schemas.user_schema import UserCreate, UserRead
 from sqlmodel import Session, select
+from sqlalchemy.orm import selectinload
 from argon2 import PasswordHasher
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -21,3 +22,11 @@ def create_user(user: UserCreate, session: SessionDep):
     session.refresh(new_user)
 
     return new_user
+
+@router.get("/get/{user_id}")
+def read_user(user_id: int, session: SessionDep):
+    #db_user = session.exec(select(User).where(User.id == user_id).options(selectinload(User.chats))).first() # type: ignore
+    db_user = session.exec(select(ChatUser).where(ChatUser.user_id == user_id)).all() # type: ignore
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user

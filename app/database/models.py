@@ -8,7 +8,7 @@ class ChatUser(SQLModel, table=True):
     user_id: int = Field(foreign_key="users.id", primary_key=True)
 
     role: str = Field(default="member")
-    joined_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")))
+    joined_at: datetime = Field(sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"), default="now()"))
 
 
 class User(SQLModel, table=True):

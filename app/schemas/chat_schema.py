@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from datetime import datetime
-from app.schemas.user_schema import UserRead 
 from app.schemas.message_schema import MessageResponse
 
 class ChatBase(BaseModel):
@@ -9,7 +8,7 @@ class ChatBase(BaseModel):
     
 
 class ChatCreate(ChatBase):
-    user_ids: list[int] = []
+    pass
 
 class ChatResponse(ChatBase):
     id: int
